@@ -152,6 +152,17 @@
     <h2>Practice conjugating the verb <span style="color:#3a7bd5; font-weight:700;">savoir </span> et <span style="color:#3a7bd5; font-weight:700;">se savoir </span></h2>
     <div class="toggle-group" aria-label="Options">
         <label><input type="checkbox" id="toggleTenses" checked /> Random tenses?</label>
+        <label id="selectTenseLabel" style="display:none; margin-left: 24px; font-weight: 600;">
+          Choisissez un temps:
+              <select id="selectTense" aria-label="Choisissez un temps pour pratiquer">
+                    <option value="Présent">Présent</option>
+                    <option value="Imparfait">Imparfait</option>
+                    <option value="Futur simple">Futur simple</option>
+                    <option value="Passé composé">Passé composé</option>
+                    <option value="Plus-que-parfait">Plus-que-parfait</option>
+                    <option value="Conditionnel">Conditionnel</option>
+              </select>
+        </label>
         <label><input type="checkbox" id="togglePronominal" checked /> Pronominal form?</label>
     </div>
     <div id="description"></div>
@@ -273,20 +284,34 @@
 
     // DOM references for toggles
     const toggleTenses = document.getElementById('toggleTenses');
+    const selectTenseLabel = document.getElementById('selectTenseLabel');
+    const selectTense = document.getElementById('selectTense');
     const togglePronominal = document.getElementById('togglePronominal');
     const pronominalHeaders = document.querySelectorAll('.pronominal-col, #pronominal-header');
 
     // Setup toggle event listeners
     toggleTenses.addEventListener('change', () => {
         useRandomTense = toggleTenses.checked;
-        if (!useRandomTense) {
-            // If fixed tense, reset to Présent
-            currentTense = 'Présent';
-        }
+        if (useRandomTense) {
+            selectTenseLabel.style.display = 'none';
+        randomizeTense();
+    } else {
+            selectTenseLabel.style.display = '';
+            currentTense = selectTense.value;
         updateDescription();
         resetForm();
         clearScore();
+        }
     });
+
+selectTense.addEventListener('change', () => {
+    if (!useRandomTense) {
+        currentTense = selectTense.value;
+        updateDescription();
+        resetForm();
+        clearScore();
+    }
+});
 
     togglePronominal.addEventListener('change', () => {
         usePronominal = togglePronominal.checked;
@@ -313,6 +338,7 @@
         resetForm();
         clearScore();
     }
+
 
     function checkAnswers() {
         const form = document.getElementById('practiceForm');
@@ -407,5 +433,6 @@
 </script>
 </body>
 </html>
+
 
 
