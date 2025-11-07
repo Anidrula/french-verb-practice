@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>French Verb Conjugation – Voir / Se voir Practice</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f8f4ee; margin: 24px; color: #262626; }
+        .conj-block { background: #fff8eb; padding: 22px 28px; border-radius: 14px; box-shadow: 0 2px 6px #0003; max-width: 550px; margin:auto; }
+        h2, h3 { margin-bottom: 18px; }
+        table { border-collapse: collapse; margin-top: 12px; width: 100%; background: #faf5ed; }
+        th, td { border: 1px solid #e2cfa5; padding: 8px 4px; text-align: center; }
+        input[type=text] { padding: 6px; font-size: 1em; border-radius: 6px; border: 1px solid #ab9b80; width: 80px; }
+        .btn { padding: 8px 20px; margin: 10px 10px 0 0; font-size: .98em; border-radius: 8px; border: 1px solid #ccb283; background: #ffe2ad; cursor: pointer; }
+        .btn:hover { background: #ffdd90; }
+        .score { margin-top: 15px; font-weight: 500; font-size: 1.09em; color: #515434;}
+        .prev-block { background: #f3ecd8; padding: 15px; margin: 23px auto 0 auto; max-width: 550px; border-radius: 10px;}
+        .prev-block h4 { margin: 0 0 8px 0;}
+        .correct { background: #bdffca; border: 1px solid #56cf7e;}
+        .incorrect { background: #ffd3c6; border: 1px solid #ef8966;}
+    </style>
+</head>
+<body>
+    <div class="conj-block">
+        <h2>French Verb Conjugation Practice</h2>
+        <div id="description"></div>
+        <form id="practiceForm" autocomplete="off">
+            <table>
+                <tr><th>Subject</th><th>[translate:voir]</th><th>[translate:se voir]</th></tr>
+                <tr>
+                    <td>[translate:je]</td>
+                    <td><input type="text" name="voir-je"></td>
+                    <td><input type="text" name="sevoir-je"></td>
+                </tr>
+                <tr>
+                    <td>[translate:tu]</td>
+                    <td><input type="text" name="voir-tu"></td>
+                    <td><input type="text" name="sevoir-tu"></td>
+                </tr>
+                <tr>
+                    <td>[translate:il/elle/on]</td>
+                    <td><input type="text" name="voir-il"></td>
+                    <td><input type="text" name="sevoir-il"></td>
+                </tr>
+                <tr>
+                    <td>[translate:nous]</td>
+                    <td><input type="text" name="voir-nous"></td>
+                    <td><input type="text" name="sevoir-nous"></td>
+                </tr>
+                <tr>
+                    <td>[translate:vous]</td>
+                    <td><input type="text" name="voir-vous"></td>
+                    <td><input type="text" name="sevoir-vous"></td>
+                </tr>
+                <tr>
+                    <td>[translate:ils/elles]</td>
+                    <td><input type="text" name="voir-ils"></td>
+                    <td><input type="text" name="sevoir-ils"></td>
+                </tr>
+            </table>
+            <button class="btn" type="button" onclick="checkAnswers()">Check Answers</button>
+            <button class="btn" type="button" onclick="nextRound()">Next Round</button>
+            <button class="btn" type="button" onclick="resetForm()">Clear Answers</button>
+        </form>
+        <div class="score" id="scoreBlock"></div>
+    </div>
+    <div class="prev-block" id="prevAnswersBlock" style="display:none;">
+        <h4>Previous Attempts</h4>
+        <ul id="prevAnswersList"></ul>
+    </div>
+    <script>
+    // Conjugation data: subject, tense, voir, se voir
+    const conjugationDb = {
+        'Présent': {
+            'je':     ['vois',    'me vois'],
+            'tu':     ['vois',    'te vois'],
+            'il':     ['voit',    'se voit'],
+            'nous':   ['voyons',  'nous voyons'],
+            'vous':   ['voyez',   'vous voyez'],
+            'ils':    ['voient',  'se voient'],
+        },
+        'Imparfait': {
+            'je':     ['voyais',    'me voyais'],
+            'tu':     ['voyais',    'te voyais'],
+            'il':     ['voyait',    'se voyait'],
+            'nous':   ['voyions',   'nous voyions'],
+            'vous':   ['voyiez',    'vous voyiez'],
+            'ils':    ['voyaient',  'se voyaient'],
+        },
+        'Futur simple': {
+            'je':     ['verrai',    'me verrai'],
+            'tu':     ['verras',    'te verras'],
+            'il':     ['verra',     'se verra'],
+            'nous':   ['verrons',   'nous verrons'],
+            'vous':   ['verrez',    'vous verrez'],
+            'ils':    ['verront',   'se verront'],
+        },
+        'Passé composé': {
+            'je':     ['ai vu',    'me suis vu'],
+            'tu':     ['as vu',    't\'es vu'],
+            'il':     ['a vu',     's\'est vu'],
+            'nous':   ['avons vu', 'nous sommes vus'],
+            'vous':   ['avez vu',  'vous êtes vus'],
+            'ils':    ['ont vu',   'se sont vus'],
+        },
+        'Plus-que-parfait': {
+            'je':     ['avais vu',    'm\'étais vu'],
+            'tu':     ['avais vu',    't\'étais vu'],
+            'il':     ['avait vu',    's\'était vu'],
+            'nous':   ['avions vu',   'nous étions vus'],
+            'vous':   ['aviez vu',    'vous étiez vus'],
+            'ils':    ['avaient vu',  's\'étaient vus'],
+        }
+    };
+
+    const tenses = Object.keys(conjugationDb);
+    const subjects = ['je','tu','il','nous','vous','ils'];
+
+    let currentTense = tenses[0]; // default, randomized later
+    let prevAnswers = [];
+
+    function randomizeTense() {
+        let idx = Math.floor(Math.random() * tenses.length);
+        currentTense = tenses[idx];
+        document.getElementById('description').innerHTML =
+            `<h3>Conjugate <span style="color:#9a5413;font-weight:bold;">voir</span> and <span style="color:#9a5413;font-weight:bold;">se voir</span> (${currentTense})</h3>
+            <p style="color:#625235;">Type correct forms for each pronoun below, then check your answers.</p>`;
+        resetForm();
+    }
+
+    function checkAnswers() {
+        let form = document.getElementById('practiceForm');
+        let correctCount = 0;
+        let total = subjects.length * 2;
+        let userAnswers = {};
+        let resultRows = [];
+
+        for (let sub of subjects) {
+            let v = form.elements['voir-' + sub].value.trim().toLowerCase();
+            let sv = form.elements['sevoir-' + sub].value.trim().toLowerCase();
+
+            let vExpected = conjugationDb[currentTense][sub][0];
+            let svExpected = conjugationDb[currentTense][sub][1];
+
+            // For scoring/results:
+            let vCorrect = v === vExpected;
+            let svCorrect = sv === svExpected;
+
+            userAnswers[sub] = [v, sv, vCorrect, svCorrect];
+
+            // Set visual feedback
+            form.elements['voir-' + sub].className = vCorrect ? 'correct' : 'incorrect';
+            form.elements['sevoir-' + sub].className = svCorrect ? 'correct' : 'incorrect';
+
+            if(vCorrect) correctCount++;
+            if(svCorrect) correctCount++;
+            resultRows.push(
+                `<li><b>${sub}</b> – <span style="color:#956328;">voir:</span> <i>${v}</i> (${vCorrect?'✔':'✗'}, should be <strong>${vExpected}</strong>) <span style="margin-left:13px;color:#956328;">se voir:</span> <i>${sv}</i> (${svCorrect?'✔':'✗'}, should be <strong>${svExpected}</strong>)</li>`
+            );
+        }
+        // Show score
+        document.getElementById('scoreBlock').innerHTML =
+            `Score for ${currentTense}: ${correctCount}/${total}`;
+        // Save previous answers
+        prevAnswers.unshift({
+            tense: currentTense,
+            score: `${correctCount}/${total}`,
+            detail: resultRows.join('')
+        });
+        // Show previous answer table
+        showPrevious();
+    }
+
+    function showPrevious() {
+        let prevBlock = document.getElementById('prevAnswersBlock');
+        let prevList = document.getElementById('prevAnswersList');
+        prevList.innerHTML = prevAnswers.map(a =>
+            `<li><b>${a.tense}</b>: <span style="color:#515434;">${a.score}</span>
+                <ul>${a.detail}</ul>
+            </li>`
+        ).join('');
+        prevBlock.style.display = prevAnswers.length ? 'block' : 'none';
+    }
+
+    function nextRound() {
+        randomizeTense();
+        document.getElementById('scoreBlock').innerHTML = '';
+    }
+
+    function resetForm() {
+        let form = document.getElementById('practiceForm');
+        for (let sub of subjects) {
+            if(form.elements['voir-' + sub]) form.elements['voir-' + sub].value = '';
+            if(form.elements['voir-' + sub]) form.elements['voir-' + sub].className = '';
+            if(form.elements['sevoir-' + sub]) form.elements['sevoir-' + sub].value = '';
+            if(form.elements['sevoir-' + sub]) form.elements['sevoir-' + sub].className = '';
+        }
+        document.getElementById('scoreBlock').innerHTML = '';
+    }
+
+    // INITIALIZE
+    randomizeTense();
+    </script>
+</body>
+</html>
