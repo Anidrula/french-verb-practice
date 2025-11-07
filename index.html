@@ -149,49 +149,49 @@
 </head>
 <body>
 <div class="conj-block" role="main" aria-label="French Verb Conjugation Practice">
-    <h2>Pratiquer la conjugaison des verbes <span style="color:#3a7bd5; font-weight:700;">[translate:savoir]</span> et <span style="color:#3a7bd5; font-weight:700;">[translate:se savoir]</span></h2>
+    <h2>Practice conjugating the verb <span style="color:#3a7bd5; font-weight:700;">savoir </span> et <span style="color:#3a7bd5; font-weight:700;">se savoir </span></h2>
     <div class="toggle-group" aria-label="Options">
-        <label><input type="checkbox" id="toggleTenses" checked /> Tenses aléatoires activés</label>
-        <label><input type="checkbox" id="togglePronominal" checked /> Formes pronominales activées</label>
+        <label><input type="checkbox" id="toggleTenses" checked /> Random tenses?</label>
+        <label><input type="checkbox" id="togglePronominal" checked /> Pronominal form?</label>
     </div>
     <div id="description"></div>
     <form id="practiceForm" autocomplete="off" aria-labelledby="description">
         <table>
             <thead>
             <tr>
-                <th scope="col">Sujet</th>
-                <th scope="col">[translate:savoir]</th>
-                <th scope="col" id="pronominal-header">[translate:se savoir]</th>
+                <th scope="col">Subject</th>
+                <th scope="col">savoir</th>
+                <th scope="col" id="pronominal-header">se savoir</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td id="lbl-je">[translate:je]</td>
+                <td id="lbl-je">je</td>
                 <td><input type="text" id="savoir-je" name="savoir-je" aria-labelledby="lbl-je" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-je" name="sesavoir-je" aria-labelledby="lbl-je" autocomplete="off"/></td>
             </tr>
             <tr>
-                <td id="lbl-tu">[translate:tu]</td>
+                <td id="lbl-tu">tu</td>
                 <td><input type="text" id="savoir-tu" name="savoir-tu" aria-labelledby="lbl-tu" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-tu" name="sesavoir-tu" aria-labelledby="lbl-tu" autocomplete="off"/></td>
             </tr>
             <tr>
-                <td id="lbl-il">[translate:il/elle/on]</td>
+                <td id="lbl-il">il/elle/on</td>
                 <td><input type="text" id="savoir-il" name="savoir-il" aria-labelledby="lbl-il" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-il" name="sesavoir-il" aria-labelledby="lbl-il" autocomplete="off"/></td>
             </tr>
             <tr>
-                <td id="lbl-nous">[translate:nous]</td>
+                <td id="lbl-nous">nous</td>
                 <td><input type="text" id="savoir-nous" name="savoir-nous" aria-labelledby="lbl-nous" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-nous" name="sesavoir-nous" aria-labelledby="lbl-nous" autocomplete="off"/></td>
             </tr>
             <tr>
-                <td id="lbl-vous">[translate:vous]</td>
+                <td id="lbl-vous">vous</td>
                 <td><input type="text" id="savoir-vous" name="savoir-vous" aria-labelledby="lbl-vous" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-vous" name="sesavoir-vous" aria-labelledby="lbl-vous" autocomplete="off"/></td>
             </tr>
             <tr>
-                <td id="lbl-ils">[translate:ils/elles]</td>
+                <td id="lbl-ils">ils/elles</td>
                 <td><input type="text" id="savoir-ils" name="savoir-ils" aria-labelledby="lbl-ils" autocomplete="off"/></td>
                 <td class="pronominal-col"><input type="text" id="sesavoir-ils" name="sesavoir-ils" aria-labelledby="lbl-ils" autocomplete="off"/></td>
             </tr>
@@ -206,7 +206,7 @@
     <div class="score" id="scoreBlock" aria-live="polite"></div>
 
     <div class="prev-block" id="prevAnswersBlock" style="display:none;">
-        <h4>Essais précédents</h4>
+        <h4>Previous attempts</h4>
         <ul id="prevAnswersList" aria-live="polite"></ul>
     </div>
 </div>
@@ -299,9 +299,9 @@
 
     function updateDescription() {
         document.getElementById('description').innerHTML =
-            `<h3>Conjuguez <span style="color:#3a7bd5; font-weight:bold;">[translate:savoir]</span>` +
-            `${usePronominal ? ` et <span style="color:#3a7bd5; font-weight:bold;">[translate:se savoir]</span>` : ''}` +
-            ` (${currentTense})</h3><p style="color:#154a7e;">Tapez les formes correctes pour chaque pronom ci-dessous, puis vérifiez vos réponses.</p>`;
+            `<h3>Conjuguez <span style="color:#3a7bd5; font-weight:bold;">savoir</span>` +
+            `${usePronominal ? ` et <span style="color:#3a7bd5; font-weight:bold;">se savoir</span>` : ''}` +
+            ` (${currentTense})</h3><p style="color:#154a7e;">Type the correct forms for each pronoun below, then check your answers.</p>`;
     }
 
     function randomizeTense() {
@@ -348,9 +348,9 @@
             if (usePronominal && svCorrect) correctCount++;
 
             resultRows.push(
-                `<li><b>${sub}</b> – <span style="color:#0f2d66;">[translate:savoir]:</span> <i>${v}</i> (${vCorrect ? '✔' : '✗'}, attendu <strong>${vExpected}</strong>)` +
+                `<li><b>${sub}</b> – <span style="color:#0f2d66;">savoir</span> <i>${v}</i> (${vCorrect ? '✔' : '✗'}, attendu <strong>${vExpected}</strong>)` +
                 (usePronominal
-                    ? ` <span style="margin-left:20px; color:#0f2d66;">[translate:se savoir]:</span> <i>${sv}</i> (${svCorrect ? '✔' : '✗'}, attendu <strong>${svExpected}</strong>)</li>`
+                    ? ` <span style="margin-left:20px; color:#0f2d66;">se savoir</span> <i>${sv}</i> (${svCorrect ? '✔' : '✗'}, attendu <strong>${svExpected}</strong>)</li>`
                     : `</li>`)
             );
         }
@@ -407,4 +407,5 @@
 </script>
 </body>
 </html>
+
 
