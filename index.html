@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>French Conjugation Practice - Savoir</title>
+<title>French Verb Conjugation Practice</title>
 <style>
     body {
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -18,7 +18,7 @@
         background: #f0f7ff;
         padding: 30px 40px;
         border-radius: 12px;
-        max-width: 800px;
+        max-width: 850px;
         width: 100%;
         box-sizing: border-box;
         box-shadow: 0 5px 15px rgba(21, 74, 126, 0.2);
@@ -26,18 +26,35 @@
     h2, h3 {
         margin-bottom: 24px;
     }
+    .toggle-group {
+        background: #eef6ff;
+        border-radius: 10px;
+        padding: 10px 16px 18px 16px;
+        margin-bottom: 20px;
+        box-sizing: border-box;
+    }
+    .toggle-group label {
+        margin-right: 24px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+    .toggle-group input[type="checkbox"], .toggle-group input[type="text"] {
+        margin-right: 8px;
+    }
     table {
         border-collapse: collapse;
         width: 100%;
         background: #e6f0ff;
         border-radius: 8px;
         overflow: hidden;
+        margin-bottom: 20px;
     }
     th, td {
         border: 1px solid #b5d1ff;
         padding: 14px 16px;
         text-align: center;
         font-size: 1.2rem;
+        vertical-align: middle;
     }
     input[type="text"] {
         padding: 12px;
@@ -126,313 +143,230 @@
             max-height: 180px;
             padding: 14px 16px;
         }
-        .toggle-group label {
-            font-size: 1.1rem;
-        }
-    }
-    .toggle-group {
-        background: #eef6ff;
-        border-radius: 10px;
-        padding: 10px 16px 18px 16px;
-        margin-bottom: 20px;
-        box-sizing: border-box;
-    }
-    .toggle-group label {
-        margin-right: 24px;
-        font-weight: 600;
-        cursor: pointer;
-    }
-    .toggle-group input[type="checkbox"] {
-        margin-right: 8px;
     }
 </style>
 </head>
 <body>
 <div class="conj-block" role="main" aria-label="French Verb Conjugation Practice">
-    <h2>Practice conjugating the verb <span style="color:#3a7bd5; font-weight:700;">savoir </span> et <span style="color:#3a7bd5; font-weight:700;">se savoir </span></h2>
+    <h2>Practice French Verb Conjugation – <span id="verbTitle" style="color:#3a7bd5; font-weight:700;">savoir</span></h2>
+
     <div class="toggle-group" aria-label="Options">
-        <label><input type="checkbox" id="toggleTenses" checked /> Random tenses?</label>
-        <label id="selectTenseLabel" style="display:none; margin-left: 24px; font-weight: 600;">
-          Choisissez un temps:
-              <select id="selectTense" aria-label="Choisissez un temps pour pratiquer">
-                    <option value="Présent">Présent</option>
-                    <option value="Imparfait">Imparfait</option>
-                    <option value="Futur simple">Futur simple</option>
-                    <option value="Passé composé">Passé composé</option>
-                    <option value="Plus-que-parfait">Plus-que-parfait</option>
-                    <option value="Conditionnel">Conditionnel</option>
-              </select>
+        <label><input type="checkbox" id="toggleTenses" checked /> Random tenses enabled</label>
+        <label><input type="checkbox" id="togglePronominal" checked /> Pronominal forms enabled</label>
+        <label style="margin-left: 24px; font-weight: 600;">
+            Or enter a specific verb:
+            <input type="text" id="searchVerb" placeholder="Type verb here (e.g. vouloir)" aria-label="Specific verb to practice" style="width: 180px; font-size: 1rem;"/>
         </label>
-        <label><input type="checkbox" id="togglePronominal" checked /> Pronominal form?</label>
     </div>
+
     <div id="description"></div>
+
     <form id="practiceForm" autocomplete="off" aria-labelledby="description">
         <table>
             <thead>
             <tr>
                 <th scope="col">Subject</th>
-                <th scope="col">savoir</th>
-                <th scope="col" id="pronominal-header">se savoir</th>
+                <th scope="col">Verb</th>
+                <th scope="col" id="pronominal-header">Pronominal form</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td id="lbl-je">je</td>
-                <td><input type="text" id="savoir-je" name="savoir-je" aria-labelledby="lbl-je" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-je" name="sesavoir-je" aria-labelledby="lbl-je" autocomplete="off"/></td>
-            </tr>
-            <tr>
-                <td id="lbl-tu">tu</td>
-                <td><input type="text" id="savoir-tu" name="savoir-tu" aria-labelledby="lbl-tu" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-tu" name="sesavoir-tu" aria-labelledby="lbl-tu" autocomplete="off"/></td>
-            </tr>
-            <tr>
-                <td id="lbl-il">il/elle/on</td>
-                <td><input type="text" id="savoir-il" name="savoir-il" aria-labelledby="lbl-il" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-il" name="sesavoir-il" aria-labelledby="lbl-il" autocomplete="off"/></td>
-            </tr>
-            <tr>
-                <td id="lbl-nous">nous</td>
-                <td><input type="text" id="savoir-nous" name="savoir-nous" aria-labelledby="lbl-nous" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-nous" name="sesavoir-nous" aria-labelledby="lbl-nous" autocomplete="off"/></td>
-            </tr>
-            <tr>
-                <td id="lbl-vous">vous</td>
-                <td><input type="text" id="savoir-vous" name="savoir-vous" aria-labelledby="lbl-vous" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-vous" name="sesavoir-vous" aria-labelledby="lbl-vous" autocomplete="off"/></td>
-            </tr>
-            <tr>
-                <td id="lbl-ils">ils/elles</td>
-                <td><input type="text" id="savoir-ils" name="savoir-ils" aria-labelledby="lbl-ils" autocomplete="off"/></td>
-                <td class="pronominal-col"><input type="text" id="sesavoir-ils" name="sesavoir-ils" aria-labelledby="lbl-ils" autocomplete="off"/></td>
-            </tr>
+            <tbody id="practiceRows">
+            <!-- Rows will be dynamically generated -->
             </tbody>
         </table>
 
-        <button class="btn" type="button" onclick="checkAnswers()">Vérifier les réponses</button>
-        <button class="btn" type="button" onclick="nextRound()">Tour suivant</button>
-        <button class="btn" type="button" onclick="resetForm()">Réinitialiser</button>
+        <button class="btn" type="button" onclick="checkAnswers()">Check Answers</button>
+        <button class="btn" type="button" onclick="nextRound()">Next Round</button>
+        <button class="btn" type="button" onclick="resetForm()">Reset</button>
     </form>
 
     <div class="score" id="scoreBlock" aria-live="polite"></div>
 
     <div class="prev-block" id="prevAnswersBlock" style="display:none;">
-        <h4>Previous attempts</h4>
+        <h4>Previous Attempts</h4>
         <ul id="prevAnswersList" aria-live="polite"></ul>
     </div>
 </div>
 
 <script>
-    const conjugationDb = {
-        'Présent': {
-            'je': ['sais', 'me sais'],
-            'tu': ['sais', 'te sais'],
-            'il': ['sait', 'se sait'],
-            'nous': ['savons', 'nous savons'],
-            'vous': ['savez', 'vous savez'],
-            'ils': ['savent', 'se savent']
-        },
-        'Imparfait': {
-            'je': ['savais', 'me savais'],
-            'tu': ['savais', 'te savais'],
-            'il': ['savait', 'se savait'],
-            'nous': ['savions', 'nous savions'],
-            'vous': ['saviez', 'vous saviez'],
-            'ils': ['savaient', 'se savaient']
-        },
-        'Futur simple': {
-            'je': ['saurai', 'me saurai'],
-            'tu': ['sauras', 'te sauras'],
-            'il': ['saura', 'se saura'],
-            'nous': ['saurons', 'nous saurons'],
-            'vous': ['saurez', 'vous saurez'],
-            'ils': ['sauront', 'se sauront']
-        },
-        'Passé composé': {
-            'je': ['ai su', 'me suis su'],
-            'tu': ['as su', 't\'es su'],
-            'il': ['a su', 's\'est su'],
-            'nous': ['avons su', 'nous sommes sus'],
-            'vous': ['avez su', 'vous êtes sus'],
-            'ils': ['ont su', 'se sont sus']
-        },
-        'Plus-que-parfait': {
-            'je': ['avais su', 'm\'étais su'],
-            'tu': ['avais su', 't\'étais su'],
-            'il': ['avait su', 's\'était su'],
-            'nous': ['avions su', 'nous étions sus'],
-            'vous': ['aviez su', 'vous étiez sus'],
-            'ils': ['avaient su', 's\'étaient sus']
-        },
-        'Conditionnel': {
-            'je': ['saurais', 'me saurais'],
-            'tu': ['saurais', 'te saurais'],
-            'il': ['saurait', 'se saurait'],
-            'nous': ['saurions', 'nous saurions'],
-            'vous': ['sauriez', 'vous sauriez'],
-            'ils': ['sauraient', 'se sauraient']
-        }
-    };
+const verbData = {
+    'savoir': {
+        'Présent': { 'je': ['sais', 'me sais'], 'tu': ['sais', 'te sais'], 'il': ['sait', 'se sait'], 'nous': ['savons', 'nous savons'], 'vous': ['savez', 'vous savez'], 'ils': ['savent', 'se savent'] },
+        'Imparfait': { 'je': ['savais', 'me savais'], 'tu': ['savais', 'te savais'], 'il': ['savait', 'se savait'], 'nous': ['savions', 'nous savions'], 'vous': ['saviez', 'vous saviez'], 'ils': ['savaient', 'se savaient'] },
+        'Futur simple': { 'je': ['saurai', 'me saurai'], 'tu': ['sauras', 'te sauras'], 'il': ['saura', 'se saura'], 'nous': ['saurons', 'nous saurons'], 'vous': ['saurez', 'vous saurez'], 'ils': ['sauront', 'se sauront'] },
+        'Passé composé': { 'je': ['ai su', 'me suis su'], 'tu': ['as su', 't\'es su'], 'il': ['a su', 's\'est su'], 'nous': ['avons su', 'nous sommes sus'], 'vous': ['avez su', 'vous êtes sus'], 'ils': ['ont su', 'se sont sus'] },
+        'Plus-que-parfait': { 'je': ['avais su', 'm\'étais su'], 'tu': ['avais su', 't\'étais su'], 'il': ['avait su', 's\'était su'], 'nous': ['avions su', 'nous étions sus'], 'vous': ['aviez su', 'vous étiez sus'], 'ils': ['avaient su', 's\'étaient sus'] },
+        'Conditionnel': { 'je': ['saurais', 'me saurais'], 'tu': ['saurais', 'te saurais'], 'il': ['saurait', 'se saurait'], 'nous': ['saurions', 'nous saurions'], 'vous': ['sauriez', 'vous sauriez'], 'ils': ['sauraient', 'se sauraient'] }
+    },
+    // You can add more verbs here, e.g. 'vouloir', 'aller', ...
+};
 
-    const tenses = Object.keys(conjugationDb);
-    const subjects = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
+const tenses = ['Présent', 'Imparfait', 'Futur simple', 'Passé composé', 'Plus-que-parfait', 'Conditionnel'];
+const subjects = ['je', 'tu', 'il', 'nous', 'vous', 'ils'];
 
-    let currentTense = tenses[0];
-    let useRandomTense = true;
-    let usePronominal = true;
-    let prevAnswers = [];
+let currentVerb = 'savoir';
+let currentTense = tenses[0];
+let useRandomTense = true;
+let usePronominal = true;
+let prevAnswers = [];
 
-    // DOM references for toggles
-    const toggleTenses = document.getElementById('toggleTenses');
-    const selectTenseLabel = document.getElementById('selectTenseLabel');
-    const selectTense = document.getElementById('selectTense');
-    const togglePronominal = document.getElementById('togglePronominal');
-    const pronominalHeaders = document.querySelectorAll('.pronominal-col, #pronominal-header');
+const toggleTenses = document.getElementById('toggleTenses');
+const togglePronominal = document.getElementById('togglePronominal');
+const searchVerb = document.getElementById('searchVerb');
 
-    // Setup toggle event listeners
-    toggleTenses.addEventListener('change', () => {
-        useRandomTense = toggleTenses.checked;
-        if (useRandomTense) {
-            selectTenseLabel.style.display = 'none';
-        randomizeTense();
-    } else {
-            selectTenseLabel.style.display = '';
-            currentTense = selectTense.value;
-        updateDescription();
-        resetForm();
-        clearScore();
-        }
-    });
-
-selectTense.addEventListener('change', () => {
-    if (!useRandomTense) {
-        currentTense = selectTense.value;
-        updateDescription();
-        resetForm();
-        clearScore();
-    }
+toggleTenses.addEventListener('change', () => {
+    useRandomTense = toggleTenses.checked;
+    randomizeTense();
 });
 
-    togglePronominal.addEventListener('change', () => {
-        usePronominal = togglePronominal.checked;
-        pronominalHeaders.forEach(el => {
-            el.style.display = usePronominal ? '' : 'none';
-        });
-        resetForm();
-        clearScore();
+togglePronominal.addEventListener('change', () => {
+    usePronominal = togglePronominal.checked;
+    renderPracticeTable();
+});
+
+searchVerb.addEventListener('input', () => {
+    const typedVerb = searchVerb.value.trim().toLowerCase();
+    if (typedVerb.length > 0 && verbData.hasOwnProperty(typedVerb)) {
+        currentVerb = typedVerb;
+    } else {
+        currentVerb = 'savoir'; // fallback default
+    }
+    randomizeTense();
+});
+
+// Helper: Render the practice rows in the table according to settings
+function renderPracticeTable() {
+    const tbody = document.getElementById('practiceRows');
+    tbody.innerHTML = '';
+    subjects.forEach(sub => {
+        const tr = document.createElement('tr');
+        
+        const tdSubj = document.createElement('td');
+        tdSubj.textContent = sub;
+        tr.appendChild(tdSubj);
+
+        // Verb form cell/input
+        const tdVerb = document.createElement('td');
+        const inputVerb = document.createElement('input');
+        inputVerb.type = 'text';
+        inputVerb.name = `verb-${sub}`;
+        inputVerb.id = `verb-${sub}`;
+        inputVerb.setAttribute('autocomplete', 'off');
+        tdVerb.appendChild(inputVerb);
+        tr.appendChild(tdVerb);
+
+        // Pronominal form cell/input
+        const tdPronom = document.createElement('td');
+        if (usePronominal) {
+            const inputPronom = document.createElement('input');
+            inputPronom.type = 'text';
+            inputPronom.name = `pronominal-${sub}`;
+            inputPronom.id = `pronominal-${sub}`;
+            inputPronom.setAttribute('autocomplete', 'off');
+            tdPronom.appendChild(inputPronom);
+        } else {
+            tdPronom.textContent = '';
+        }
+        tr.appendChild(tdPronom);
+
+        tbody.appendChild(tr);
     });
 
-    function updateDescription() {
-        document.getElementById('description').innerHTML =
-            `<h3>Conjuguez <span style="color:#3a7bd5; font-weight:bold;">savoir</span>` +
-            `${usePronominal ? ` et <span style="color:#3a7bd5; font-weight:bold;">se savoir</span>` : ''}` +
-            ` (${currentTense})</h3><p style="color:#154a7e;">Type the correct forms for each pronoun below, then check your answers.</p>`;
+    // Show/hide pronominal column header
+    const pronominalHeader = document.getElementById('pronominal-header');
+    pronominalHeader.style.display = usePronominal ? '' : 'none';
+}
+
+function updateDescription() {
+    const descElem = document.getElementById('description');
+    descElem.innerHTML = `<h3>Practice conjugating <span style="color:#3a7bd5; font-weight:bold;">${currentVerb}</span> ${usePronominal ? "and its pronominal form " : ""}in ${currentTense} tense.</h3>
+        <p>Fill in the correct forms below and click 'Check Answers'.</p>`;
+}
+
+// Picks a random tense if enabled, or keeps current tense
+function randomizeTense() {
+    if (useRandomTense) {
+        const idx = Math.floor(Math.random() * tenses.length);
+        currentTense = tenses[idx];
     }
+    updateDescription();
+    renderPracticeTable();
+    resetForm();
+    clearScore();
+}
 
-    function randomizeTense() {
-        if (useRandomTense) {
-            const idx = Math.floor(Math.random() * tenses.length);
-            currentTense = tenses[idx];
-        }
-        updateDescription();
-        resetForm();
-        clearScore();
-    }
+function checkAnswers() {
+    const form = document.getElementById('practiceForm');
+    let correctCount = 0;
+    let total = subjects.length * (usePronominal ? 2 : 1);
+    let resultRows = [];
 
+    subjects.forEach(sub => {
+        const verbInput = form.elements[`verb-${sub}`];
+        const pronomInput = usePronominal ? form.elements[`pronominal-${sub}`] : null;
 
-    function checkAnswers() {
-        const form = document.getElementById('practiceForm');
-        let correctCount = 0;
-        let total = subjects.length * (usePronominal ? 2 : 1);
-        let userAnswers = {};
-        let resultRows = [];
+        const userVerb = verbInput.value.trim().toLowerCase();
+        const userPronom = usePronominal ? pronomInput.value.trim().toLowerCase() : null;
 
-        for (const sub of subjects) {
-            const vInput = form.elements['savoir-' + sub];
-            let svInput = null;
-            if (usePronominal) {
-                svInput = form.elements['sesavoir-' + sub];
-            }
+        const expectedVerb = verbData[currentVerb][currentTense][sub][0];
+        const expectedPronom = usePronominal ? verbData[currentVerb][currentTense][sub][1] : null;
 
-            const v = vInput.value.trim().toLowerCase();
-            const sv = usePronominal ? svInput.value.trim().toLowerCase() : null;
+        const verbCorrect = userVerb === expectedVerb;
+        const pronomCorrect = usePronominal ? userPronom === expectedPronom : true;
 
-            const vExpected = conjugationDb[currentTense][sub][0];
-            const svExpected = usePronominal ? conjugationDb[currentTense][sub][1] : null;
-
-            const vCorrect = v === vExpected;
-            const svCorrect = usePronominal ? sv === svExpected : true;
-
-            userAnswers[sub] = [v, sv, vCorrect, svCorrect];
-
-            vInput.className = vCorrect ? 'correct' : 'incorrect';
-            if (usePronominal) {
-                svInput.className = svCorrect ? 'correct' : 'incorrect';
-            }
-
-            if (vCorrect) correctCount++;
-            if (usePronominal && svCorrect) correctCount++;
-
-            resultRows.push(
-                `<li><b>${sub}</b> – <span style="color:#0f2d66;">savoir</span> <i>${v}</i> (${vCorrect ? '✔' : '✗'}, attendu <strong>${vExpected}</strong>)` +
-                (usePronominal
-                    ? ` <span style="margin-left:20px; color:#0f2d66;">se savoir</span> <i>${sv}</i> (${svCorrect ? '✔' : '✗'}, attendu <strong>${svExpected}</strong>)</li>`
-                    : `</li>`)
-            );
+        verbInput.className = verbCorrect ? 'correct' : 'incorrect';
+        if (usePronominal) {
+            pronomInput.className = pronomCorrect ? 'correct' : 'incorrect';
         }
 
-        document.getElementById('scoreBlock').innerHTML =
-            `Score pour <strong>${currentTense}</strong> : ${correctCount}/${total}`;
+        if (verbCorrect) correctCount++;
+        if (pronomCorrect) correctCount++;
 
-        prevAnswers.unshift({
-            tense: currentTense,
-            score: `${correctCount}/${total}`,
-            detail: resultRows.join('')
-        });
+        resultRows.push(`<li><strong>${sub}</strong>: Verb: <em>${userVerb}</em> (${verbCorrect ? '✔' : '✗'}, correct is <strong>${expectedVerb}</strong>)${usePronominal ? `; Pronominal: <em>${userPronom}</em> (${pronomCorrect ? '✔' : '✗'}, correct is <strong>${expectedPronom}</strong>)` : ''}</li>`);
+    });
 
-        showPrevious();
-    }
+    const scoreBlock = document.getElementById('scoreBlock');
+    scoreBlock.innerHTML = `Score for <strong>${currentTense}</strong>: ${correctCount} / ${total}`;
 
-    function showPrevious() {
-        const prevBlock = document.getElementById('prevAnswersBlock');
-        const prevList = document.getElementById('prevAnswersList');
-        prevList.innerHTML = prevAnswers.map(
-            (a) => `<li><b>${a.tense}</b> : <span style="color:#154a7e;">${a.score}</span><ul>${a.detail}</ul></li>`
-        ).join('');
-        prevBlock.style.display = prevAnswers.length ? 'block' : 'none';
-    }
+    prevAnswers.unshift({
+        tense: currentTense,
+        verb: currentVerb,
+        score: `${correctCount} / ${total}`,
+        detail: resultRows.join('')
+    });
 
-    function nextRound() {
-        randomizeTense();
-        clearScore();
-    }
+    showPrevious();
+}
 
-    function resetForm() {
-        const form = document.getElementById('practiceForm');
-        subjects.forEach((sub) => {
-            const vInput = form.elements['savoir-' + sub];
-            const svInput = form.elements['sesavoir-' + sub];
-            if (vInput) {
-                vInput.value = '';
-                vInput.className = '';
-            }
-            if (svInput) {
-                svInput.value = '';
-                svInput.className = '';
-            }
-        });
-        clearScore();
-    }
+function showPrevious() {
+    const prevBlock = document.getElementById('prevAnswersBlock');
+    const prevList = document.getElementById('prevAnswersList');
+    prevList.innerHTML = prevAnswers.map(a => `<li><b>Verb '${a.verb}', Tense ${a.tense}</b>: <span style="color:#154a7e;">${a.score}</span><ul>${a.detail}</ul></li>`).join('');
+    prevBlock.style.display = prevAnswers.length ? 'block' : 'none';
+}
 
-    function clearScore() {
-        document.getElementById('scoreBlock').innerHTML = '';
-    }
-
-    // Initialize interface
+function nextRound() {
     randomizeTense();
+    clearScore();
+}
+
+function resetForm() {
+    const form = document.getElementById('practiceForm');
+    subjects.forEach(sub => {
+        const verbInput = form.elements[`verb-${sub}`];
+        const pronomInput = form.elements[`pronominal-${sub}`];
+        if (verbInput) { verbInput.value = ''; verbInput.className = ''; }
+        if (pronomInput) { pronomInput.value = ''; pronomInput.className = ''; }
+    });
+    clearScore();
+}
+
+function clearScore() {
+    document.getElementById('scoreBlock').innerHTML = '';
+}
+
+searchVerb.value = '';
+randomizeTense();
 </script>
 </body>
 </html>
-
-
-
